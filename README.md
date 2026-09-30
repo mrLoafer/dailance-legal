@@ -111,22 +111,46 @@ Every legal-content update should be reviewed by the product owner and qualified
 6. run the validator and preview the pages on mobile and desktop; and
 7. keep evidence of approval outside the public site as required by the owner’s release process.
 
-## Release blockers
+## Release readiness and blockers
 
-The English drafts are ready for owner and legal review, but they are **not ready for public release** until the following placeholders or decisions are resolved:
+The English drafts reflect the current MVP and are ready for owner and professional legal review. They are **not ready for public release** until every item below that applies to the release has been closed.
 
-- legal entity/operator name;
-- Terms effective date;
-- Privacy Policy effective date;
-- governing law, courts, and dispute process;
-- minimum user age and any parental-consent process;
-- business/postal address, if required;
-- privacy representative or data-protection contact, if required;
-- applicable privacy rights, request-verification procedure, and regulator disclosures;
-- international processing locations and transfer safeguards;
-- production infrastructure and email service providers, plus required processor disclosures and agreements;
-- formal retention schedules, including logs, provider records, and backups;
-- any jurisdiction-specific consumer, privacy, or financial-disclaimer language; and
-- the scope and any monetary cap for limitations of liability.
+### RESOLVED
 
-Search for `[` in the English legal pages before publication to locate visible bracketed placeholders. Resolve them through legal review; do not silently remove them without a decision.
+- **Operating form:** Dailance is operated by an individual developer, not a company. The drafts no longer imply that an incorporated entity exists.
+- **Operator identity:** the individual operator is Oleg Pyrchenkov. No company, registration, tax, or address details are inferred.
+- **Minimum age:** the current MVP is 18+ and is not intended for children or minors under 18.
+- **Home-law baseline:** the Terms use the laws of the Republic of Armenia while preserving mandatory consumer rights and legally available forums. Exclusive Armenian or Yerevan jurisdiction is not claimed.
+- **Support and privacy channel:** `support@dailance.com` is the contact for support, access, correction, deletion, and other privacy requests.
+- **Confirmed email processor:** Resend is identified for transactional verification, recovery, and account-deletion completion email.
+- **Current product scope:** the drafts cover email/password accounts, verification and recovery, optional profile data, manually entered plans and expenses, categories, calculated budgets/carry-over, basic internal analytics, and operational/security metadata. They do not claim bank connections, receipt images, location collection, advertising, or behavioral analytics.
+- **Deletion behavior:** the drafts describe the implemented in-app request, password confirmation, sign-out, asynchronous active-system deletion, completion confirmation email, limited cryptographic security markers, and possible backup/log/provider retention without promising an unsupported deadline.
+- **Public legal-site infrastructure:** GitHub Pages is identified separately from processors of Dailance account and financial data.
+
+### OWNER DECISION REQUIRED
+
+- **First-publication date:** immediately before public deployment, replace every exact `[EFFECTIVE DATE — SET TO FIRST PUBLICATION DATE]` token with the actual date on which the reviewed Terms and Privacy Policy first become publicly available. Use the same date in both documents and do not backdate it.
+- **Release and monetization model:** confirm the initial countries of availability and whether the app will be free, paid, or use in-app purchases. These facts affect store identity/address disclosures and the set of local consumer rules to review.
+- **Public address, if required:** after legal review, provide the postal or business address that should appear in the policy. No address should be inferred or invented.
+
+### LEGAL REVIEW RECOMMENDED
+
+- **Operator and contact disclosures:** confirm that the legal-name wording is sufficient for an individual using Armenia as the home-law baseline and decide whether an address, privacy representative, or regulator contact must be published in the initial distribution countries.
+- **Governing law and disputes:** review the Armenian governing-law clause, its preservation of mandatory local consumer rights, and the decision not to impose an exclusive court.
+- **Age policy:** review the confirmed 18+ policy for the intended markets and make the onboarding, marketing, and Apple/Google audience declarations match it. No parental-consent flow is part of the current MVP.
+- **Privacy rights and lawful processing:** confirm applicable legal bases, request-response requirements, identity-verification wording, regulator disclosures, and any country-specific rights.
+- **International transfers:** after providers and regions are known, determine whether Armenian authorization, an adequacy basis, contractual safeguards, or other measures are required. Do not claim SCCs or another mechanism unless it is actually used.
+- **Consumer and liability language:** review the financial-information disclaimer, warranty language, limitation of indirect/consequential loss, and preservation of non-excludable rights. No monetary liability cap is asserted.
+- **Retention obligations:** identify any mandatory record-retention periods and approve the treatment of security markers, logs, transactional-email records, and backups.
+
+### TECHNICAL VERIFICATION REQUIRED
+
+- **Production host and region:** record the selected hosting provider, legal contracting entity, country/region, data categories handled, and applicable data-processing terms before naming it in the Privacy Policy.
+- **Backup provider and region:** record the selected S3-compatible provider, storage region, encryption/key ownership, rotation schedule, deletion behavior, and data-processing terms. The repository currently proves encryption and candidate rotation points, not a final vendor or legally approved schedule.
+- **Email processing details:** confirm the production Resend account/entity, processing locations, contractual terms, provider retention controls, and the exact metadata visible in production.
+- **Logs and network metadata:** verify production IP handling, log destinations, access controls, and retention. Confirm that passwords, verification/recovery codes, tokens, email addresses, and user financial data are not written to application logs.
+- **Deletion and backups:** run the end-to-end deletion verification, including stale-message fencing, participant completion, sign-in/recovery denial, and a restore test proving that tombstones prevent deleted data from returning.
+- **Store artifacts and declarations:** inspect each final signed iOS/Android binary and its third-party code, then make Apple App Privacy and Google Data safety answers match the shipped behavior. Confirm the in-app deletion path and provide `https://legal.dailance.com/en/delete-account/` as the Google web deletion resource.
+- **Public-site readiness:** verify DNS, TLS, GitHub Pages custom-domain status, every canonical URL, and the actual effective date immediately before publication. Deployment and DNS changes are intentionally outside this task.
+
+Search for `[` in the English legal pages before publication to locate visible bracketed placeholders. Resolve them with the specified owner input or review; do not silently remove them.

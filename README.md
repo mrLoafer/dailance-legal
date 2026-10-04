@@ -129,7 +129,7 @@ The English drafts reflect the current MVP and are ready for owner and professio
 
 ### OWNER DECISION REQUIRED
 
-- **First-publication date:** immediately before public deployment, replace every exact `[EFFECTIVE DATE — SET TO FIRST PUBLICATION DATE]` token with the actual date on which the reviewed Terms and Privacy Policy first become publicly available. Use the same date in both documents and do not backdate it.
+- **First-publication date:** set to **4 October 2026** in both the Terms of Use and Privacy Policy.
 - **Release and monetization model:** confirm the initial countries of availability and whether the app will be free, paid, or use in-app purchases. These facts affect store identity/address disclosures and the set of local consumer rules to review.
 - **Public address, if required:** after legal review, provide the postal or business address that should appear in the policy. No address should be inferred or invented.
 

@@ -41,6 +41,8 @@ assert.deepEqual(
 
 assert.equal((await readFile(path.join(root, 'CNAME'), 'utf8')).trim(), 'legal.dailance.com');
 assert(allFiles.includes(path.join(root, '.nojekyll')), '.nojekyll is missing');
+assert(allFiles.includes(path.join(root, 'robots.txt')), 'robots.txt is missing');
+assert(allFiles.includes(path.join(root, 'sitemap.xml')), 'sitemap.xml is missing');
 
 for (const file of htmlFiles) {
   const relative = path.relative(root, file);
@@ -77,8 +79,64 @@ for (const address of [
   assert(combined.includes(address), `Missing canonical public URL: ${address}`);
 }
 
+const privacy = await readFile(path.join(root, 'en/privacy/index.html'), 'utf8');
+for (const requiredDisclosure of [
+  'Sign in with Apple',
+  'private relay address',
+  'DigitalOcean',
+  'Resend',
+  'Expo push token',
+  'Apple Push Notification service',
+  'Firebase Cloud Messaging',
+  'removed from active application databases',
+]) {
+  assert(privacy.includes(requiredDisclosure), `Privacy Policy is missing required disclosure: ${requiredDisclosure}`);
+}
+
+const terms = await readFile(path.join(root, 'en/terms/index.html'), 'utf8');
+for (const requiredTerm of [
+  'at least 18 years old',
+  'does not promise any financial result',
+  'Sign in with Apple',
+  'laws of the Republic of Armenia',
+]) {
+  assert(terms.includes(requiredTerm), `Terms of Use is missing required term: ${requiredTerm}`);
+}
+
+const deletion = await readFile(path.join(root, 'en/delete-account/index.html'), 'utf8');
+for (const requiredInstruction of [
+  'email-and-password account',
+  'Apple-only account',
+  'revokes its stored Apple authorization',
+  'deletion completes asynchronously',
+  'encrypted backups',
+  'support@dailance.com',
+]) {
+  assert(deletion.includes(requiredInstruction), `Deletion page is missing required instruction: ${requiredInstruction}`);
+}
+
+for (const legalPage of [privacy, terms, deletion]) {
+  assert(legalPage.includes('Proposed revision:</strong> 14 November 2026'), 'Legal page revision dates are inconsistent');
+  assert(legalPage.includes('Publication approval required.'), 'Legal page is missing the approval boundary');
+}
+
+const robots = await readFile(path.join(root, 'robots.txt'), 'utf8');
+assert.match(robots, /^User-agent: \*$/m);
+assert.match(robots, /^Sitemap: https:\/\/legal\.dailance\.com\/sitemap\.xml$/m);
+
+const sitemap = await readFile(path.join(root, 'sitemap.xml'), 'utf8');
+for (const address of [
+  'https://legal.dailance.com/',
+  'https://legal.dailance.com/en/',
+  'https://legal.dailance.com/en/terms/',
+  'https://legal.dailance.com/en/privacy/',
+  'https://legal.dailance.com/en/delete-account/',
+]) {
+  assert(sitemap.includes(`<loc>${address}</loc>`), `Sitemap is missing ${address}`);
+}
+
 for (const unsupportedLanguage of ['ru', 'hy', 'vi']) {
   assert(!allFiles.some((file) => file.startsWith(path.join(root, unsupportedLanguage))), `Fake ${unsupportedLanguage} translation found`);
 }
 
-process.stdout.write(`PASS: validated ${htmlFiles.length} HTML pages and all internal links.\n`);
+process.stdout.write(`PASS: validated ${htmlFiles.length} HTML pages, legal disclosures, metadata, and all internal links.\n`);

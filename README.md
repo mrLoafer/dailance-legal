@@ -4,6 +4,21 @@ Static public legal and account-help pages for Dailance, designed for GitHub Pag
 
 The site uses plain HTML and one shared CSS file. It has no JavaScript runtime, external assets, web fonts, tracking scripts, or cookies. The legal text is a product draft for owner and professional legal review; it must not be treated as finalized legal advice.
 
+## Source of truth
+
+This repository is the single canonical source for publishable Dailance legal
+text and the public URL structure. The Dailance application monorepo owns the
+implementation evidence, data inventory, mobile URL configuration, approval
+checklist, and a contract check for these URLs; it does not generate or carry a
+second copy of the legal text.
+
+This separation is deliberate. A legal-site pull request must cite the Dailance
+implementation revision it was checked against. A corresponding application
+release records the approved legal-site commit and URLs. Neither repository
+fetches or writes the other during a build, so a missing token or remote outage
+cannot silently change legal content. Synchronization is a reviewed release
+step enforced by validators in both repositories.
+
 ## URL structure
 
 | Page | Public URL |
@@ -32,7 +47,11 @@ Run the dependency-free validator with:
 node scripts/check-site.mjs
 ```
 
-It checks the required pages, canonical URLs, internal links, shared stylesheet, custom-domain file, support email, lack of scripts/tracking, and absence of fake translation directories.
+It checks the required pages, canonical URLs, internal links, shared stylesheet,
+custom-domain file, support email, legal disclosure guardrails, consistent
+revision status, sitemap/robots metadata, lack of scripts/tracking, and absence
+of fake translation directories. The GitHub Actions workflow runs the same
+dependency-free check for every pull request and push to `main`.
 
 ## Deploy with GitHub Pages
 
@@ -101,13 +120,13 @@ Do not automatically overwrite translated pages when English changes. Record the
 
 ## Reviewing legal content changes
 
-Every legal-content update should be reviewed by the product owner and qualified legal counsel before publication. Reviewers should:
+Every legal-content update should be reviewed by the product owner and qualified legal counsel before publication. A proposed revision must retain its visible publication-approval notice and unset effective date until that review is complete. Reviewers should:
 
 1. compare the text with the currently released app and backend behavior;
 2. confirm the operator identity, jurisdictions, service providers, processing locations, retention practices, and user-rights procedure;
 3. confirm that no planned feature is presented as currently available;
 4. review all language versions independently;
-5. update each affected page’s “Last updated” date and confirm the effective date or notice process;
+5. replace the proposed-revision notice with the approved “Last updated” and effective dates immediately before merge to the publishing branch;
 6. run the validator and preview the pages on mobile and desktop; and
 7. keep evidence of approval outside the public site as required by the owner’s release process.
 
@@ -129,9 +148,10 @@ The English drafts reflect the current MVP and are ready for owner and professio
 
 ### OWNER DECISION REQUIRED
 
-- **First-publication date:** set to **4 October 2026** in both the Terms of Use and Privacy Policy.
+- **Publication date:** approve this revision and set the final matching “Last updated” and effective dates on all three pages immediately before publication.
 - **Release and monetization model:** confirm the initial countries of availability and whether the app will be free, paid, or use in-app purchases. These facts affect store identity/address disclosures and the set of local consumer rules to review.
 - **Public address, if required:** after legal review, provide the postal or business address that should appear in the policy. No address should be inferred or invented.
+- **Production and provider facts:** close the hosting, backup, logs, email, Apple, Expo, APNs/FCM, and international-transfer confirmations listed below before approving the Privacy Policy.
 
 ### LEGAL REVIEW RECOMMENDED
 
@@ -145,7 +165,7 @@ The English drafts reflect the current MVP and are ready for owner and professio
 
 ### TECHNICAL VERIFICATION REQUIRED
 
-- **Production host and region:** record the selected hosting provider, legal contracting entity, country/region, data categories handled, and applicable data-processing terms before naming it in the Privacy Policy.
+- **Current and production host:** confirm the DigitalOcean account entity, current staging region, data categories handled, provider retention, and applicable processing terms. Separately record the selected production provider and region before claiming that production is provisioned.
 - **Backup provider and region:** record the selected S3-compatible provider, storage region, encryption/key ownership, rotation schedule, deletion behavior, and data-processing terms. The repository currently proves encryption and candidate rotation points, not a final vendor or legally approved schedule.
 - **Email processing details:** confirm the production Resend account/entity, processing locations, contractual terms, provider retention controls, and the exact metadata visible in production.
 - **Logs and network metadata:** verify production IP handling, log destinations, access controls, and retention. Confirm that passwords, verification/recovery codes, tokens, email addresses, and user financial data are not written to application logs.
@@ -153,4 +173,8 @@ The English drafts reflect the current MVP and are ready for owner and professio
 - **Store artifacts and declarations:** inspect each final signed iOS/Android binary and its third-party code, then make Apple App Privacy and Google Data safety answers match the shipped behavior. Confirm the in-app deletion path and provide `https://legal.dailance.com/en/delete-account/` as the Google web deletion resource.
 - **Public-site readiness:** verify DNS, TLS, GitHub Pages custom-domain status, every canonical URL, and the actual effective date immediately before publication. Deployment and DNS changes are intentionally outside this task.
 
-Search for `[` in the English legal pages before publication to locate visible bracketed placeholders. Resolve them with the specified owner input or review; do not silently remove them.
+Before publication, resolve every item in the Dailance monorepo's
+`docs/legal/owner-confirmations.md`, record the reviewed Dailance commit, remove
+the visible proposal notices only after approval, run `node scripts/check-site.mjs`,
+and preview all pages at narrow and wide viewport sizes. Do not deploy from a
+feature branch or merge a proposed revision merely to preview it.

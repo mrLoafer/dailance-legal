@@ -96,6 +96,7 @@ for (const requiredDisclosure of [
 const terms = await readFile(path.join(root, 'en/terms/index.html'), 'utf8');
 for (const requiredTerm of [
   'at least 18 years old',
+  'contractual 18+ eligibility rule is separate from the content-based age rating',
   'does not promise any financial result',
   'Sign in with Apple',
   'laws of the Republic of Armenia',
@@ -136,6 +137,11 @@ for (const legalPage of [privacy, terms, deletion]) {
 assert(terms.includes('does not promise that Dailance will remain free forever'), 'Terms incorrectly imply that the free model is permanent');
 assert(terms.includes('clear notice'), 'Terms are missing the future-pricing notice boundary');
 assert(privacy.includes('do not collect payment-card or purchase information'), 'Privacy Policy is missing the no-payment-data boundary');
+for (const legalPage of [privacy, terms, deletion]) {
+  assert(legalPage.includes('Armenia storefronts'), 'Legal page is missing the Armenia-only launch market');
+}
+assert(privacy.includes('does not currently claim geographical access controls'), 'Privacy Policy overstates storefront targeting as a backend restriction');
+assert(terms.includes('not a representation that the backend technically blocks access'), 'Terms overstate storefront targeting as a backend restriction');
 assert.doesNotMatch(combined, /\brefunds?\b/i, 'Refund language is inappropriate for the free launch model');
 
 for (const legalPage of [privacy, terms, deletion]) {

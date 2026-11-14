@@ -129,6 +129,16 @@ assert(terms.includes('does not represent that Dailance is an Armenian company, 
 assert.doesNotMatch(combined, /Oleg Pyrchenkov/i, 'Unverified operator legal name found');
 
 for (const legalPage of [privacy, terms, deletion]) {
+  assert(legalPage.includes('completely free'), 'Legal page is missing the confirmed free launch model');
+  assert(legalPage.includes('no paid subscriptions, in-app purchases, paid features, advertisements, or other monetization'), 'Legal page is missing a launch monetization exclusion');
+}
+
+assert(terms.includes('does not promise that Dailance will remain free forever'), 'Terms incorrectly imply that the free model is permanent');
+assert(terms.includes('clear notice'), 'Terms are missing the future-pricing notice boundary');
+assert(privacy.includes('do not collect payment-card or purchase information'), 'Privacy Policy is missing the no-payment-data boundary');
+assert.doesNotMatch(combined, /\brefunds?\b/i, 'Refund language is inappropriate for the free launch model');
+
+for (const legalPage of [privacy, terms, deletion]) {
   assert(legalPage.includes('Proposed revision:</strong> 14 November 2026'), 'Legal page revision dates are inconsistent');
   assert(legalPage.includes('Publication approval required.'), 'Legal page is missing the approval boundary');
 }

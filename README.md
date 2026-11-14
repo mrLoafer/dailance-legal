@@ -139,6 +139,7 @@ The English drafts reflect the current MVP and are ready for owner and professio
 - **Operating form:** Dailance is a product and service name, not a legal entity. It is currently provided by a natural person acting in an individual capacity. No legal entity, LLC, or registered sole proprietorship has been established for Dailance.
 - **No inferred registration facts:** the drafts do not claim a company, business registration, tax identifier, business address, or licence.
 - **Minimum age:** the current MVP is 18+ and is not intended for children or minors under 18.
+- **Initial monetization model:** Dailance will be completely free at launch. There will be no paid subscriptions, in-app purchases, paid features, advertising, or other monetization. This does not promise that Dailance will remain free forever; any future monetization requires clear notice, applicable legal/platform review, and updates to the legal documents and store declarations before it is introduced.
 - **Home-law baseline:** the Terms use the laws of the Republic of Armenia while preserving mandatory consumer rights and legally available forums. Exclusive Armenian or Yerevan jurisdiction is not claimed.
 - **Support and privacy channel:** `support@dailance.com` is the contact for support, access, correction, deletion, and other privacy requests.
 - **Confirmed email processor:** Resend is identified for transactional verification, recovery, and account-deletion completion email.
@@ -150,7 +151,7 @@ The English drafts reflect the current MVP and are ready for owner and professio
 
 - **Verified operator legal name:** provide and approve the exact legal name that will identify the natural-person operator in all three pages and applicable store records. The prior draft's name was not treated as verified by the current owner decision and has been removed. Every page now contains a blocking review field.
 - **Publication date:** approve this revision and set the final matching “Last updated” and effective dates on all three pages immediately before publication.
-- **Release and monetization model:** confirm the initial countries of availability and whether the app will be free, paid, or use in-app purchases. These facts affect store identity/address disclosures and the set of local consumer rules to review.
+- **Release countries:** confirm the initial countries of availability. The launch model is resolved as completely free without monetization, but intended markets still determine store identity/address disclosures and the local consumer rules to review.
 - **Approved public contacts:** verify that `support@dailance.com` is owned, monitored, and suitable for support, privacy, and deletion requests. Decide what public phone number, postal address, or other contact is legally or contractually required for the selected stores and launch markets. Do not publish a residential address or private contact detail without explicit owner approval.
 - **Production and provider facts:** close the hosting, backup, logs, email, Apple, Expo, APNs/FCM, and international-transfer confirmations listed below before approving the Privacy Policy.
 

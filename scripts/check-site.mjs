@@ -116,6 +116,19 @@ for (const requiredInstruction of [
 }
 
 for (const legalPage of [privacy, terms, deletion]) {
+  assert(legalPage.includes('Dailance is the product and service name'), 'Legal page does not distinguish the Dailance name from the operator');
+  assert(legalPage.includes('natural person acting in an individual capacity'), 'Legal page is missing the confirmed individual operating form');
+  assert(legalPage.toLowerCase().includes('no legal entity or registered sole proprietorship'), 'Legal page is missing the no-entity/no-registration boundary');
+  assert(legalPage.includes('VERIFIED LEGAL NAME REQUIRED BEFORE PUBLICATION'), 'Legal page is missing the operator legal-name publication blocker');
+}
+
+assert(privacy.includes('do not operate Dailance'), 'Privacy Policy does not distinguish external service providers from the operator');
+assert(privacy.includes('operator transition has already occurred'), 'Privacy Policy is missing the future-operator transition boundary');
+assert(terms.includes('operator transition has already occurred'), 'Terms are missing the future-operator transition boundary');
+assert(terms.includes('does not represent that Dailance is an Armenian company, registered business, or licensed provider'), 'Terms overstate the effect of the Armenian governing-law clause');
+assert.doesNotMatch(combined, /Oleg Pyrchenkov/i, 'Unverified operator legal name found');
+
+for (const legalPage of [privacy, terms, deletion]) {
   assert(legalPage.includes('Proposed revision:</strong> 14 November 2026'), 'Legal page revision dates are inconsistent');
   assert(legalPage.includes('Publication approval required.'), 'Legal page is missing the approval boundary');
 }

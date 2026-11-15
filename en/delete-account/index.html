@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="How to delete a Dailance account from the mobile application.">
+  <meta name="description" content="How to delete a Dailance account and what happens after the request is accepted.">
   <link rel="canonical" href="https://legal.dailance.com/en/delete-account/">
   <link rel="stylesheet" href="/assets/styles.css">
   <title>Delete Account — Dailance</title>
@@ -21,31 +21,42 @@
       <p class="eyebrow">Account help</p>
       <h1>Delete your Dailance account</h1>
       <div class="page-meta">
-        <p><strong>Last updated:</strong> 30 September 2026</p>
+        <p><strong>Proposed revision:</strong> 15 November 2026</p>
+        <p><strong>Effective date:</strong> To be set when this revision is approved and published</p>
       </div>
-      <p>Dailance provides account deletion directly inside the mobile application. There is no web deletion form.</p>
+      <aside class="review-notice" role="note">
+        <strong>Publication approval required.</strong>
+        These proposed instructions are not effective until approved and published.
+      </aside>
+
+      <p>Deletion is irreversible. Dailance provides account deletion directly inside the mobile app.</p>
 
       <h2>Delete your account in the app</h2>
       <ol>
-        <li>Open Dailance.</li>
-        <li>Open <strong>Profile</strong>.</li>
+        <li>Open Dailance and go to <strong>Profile</strong>.</li>
         <li>Select <strong>Delete account</strong>.</li>
         <li>Review the warning and select <strong>Continue</strong>.</li>
-        <li>Enter your current password to confirm that the request is yours.</li>
+        <li>For an email-and-password account, enter your current password. For an Apple-only account, select <strong>Confirm with Apple and delete</strong> and complete fresh Apple authorization.</li>
         <li>Submit the deletion request.</li>
       </ol>
 
-      <h2>What happens next</h2>
-      <p>After Dailance accepts the request, you are signed out and the account cannot be used while deletion completes asynchronously. Completion removes the account and its associated personal financial data from active application systems.</p>
-      <p>When the deletion process has completed, Dailance sends a confirmation email to the account email address. A delay or failure in delivering that email does not undo the completed deletion.</p>
-      <p>No exact processing time is promised. A limited cryptographic security marker may remain to prevent deleted data from being recreated or stale requests from being accepted. Some copies may remain in encrypted backups until they are rotated, and limited records may be retained where reasonably necessary for legal, security, fraud-prevention, dispute, or operational purposes. For details, read the <a href="/en/privacy/">Privacy Policy</a>.</p>
+      <h2>What happens after acceptance</h2>
+      <p>For an Apple-only account, Dailance revokes its stored Apple authorization before accepting deletion. After either request is durably accepted, the app signs you out, refresh sessions and password-recovery state are disabled, and active data deletion continues in the background across Dailance services.</p>
+      <p>A previously issued short-lived access token can remain technically valid for at most its remaining 15-minute lifetime while service-specific deletion protections are installed. The requesting app clears its token immediately. If a service is temporarily unavailable, Dailance records the failure and retries; other available services can still be processed. There is no progress screen and no deterministic maximum completion time, so we do not promise an exact deadline.</p>
+      <p>Completion removes user-owned account and authentication data, profile data, plans, expenses, categories and preferences, daily-budget projections, analytics, and pending user-linked email and push records from active application databases. Limited keyed cryptographic markers remain to prevent stale data or requests from recreating the account.</p>
+      <p>We send a confirmation email to the account email address after active-system deletion completes. Email delivery is a separate step and may be delayed or fail; that does not undo deletion.</p>
 
-      <h2>If you cannot access your account</h2>
-      <p>If you cannot access your account or need help with deletion, contact <a href="mailto:support@dailance.com">support@dailance.com</a>. You may use that address to request account deletion when the in-app method is unavailable.</p>
-      <p>Do not send your password, verification code, recovery code, or access token by email. Support may need to verify that you control the account before assisting.</p>
+      <h2>Historical encrypted backups</h2>
+      <p>Existing encrypted backups are not selectively rewritten when you delete your account. The approved policy selects the newest valid restore point on 14 represented UTC dates and 8 represented ISO weeks and always preserves the latest valid point. This is not a fixed maximum age: cleanup may be delayed or fail, and provider-held versions or snapshots may follow separate settings. Historical copies can therefore remain until the relevant restore points and provider copies are removed.</p>
+      <p>A historical restore must remain isolated unless newer deletion protections are preserved and reapplied. If those protections are unavailable, the restore must not be returned to public service. This prevents a deleted account from being restored as active.</p>
+
+      <h2>If you cannot access the app</h2>
+      <p>Email <a href="mailto:support@dailance.com">support@dailance.com</a> for deletion assistance. An email address alone is not enough to authorize deletion; support must verify account control through an approved secure process. Do not send your password, verification code, recovery code, access token, identity documents, or complete financial records by email.</p>
 
       <div class="support-box">
         <p><strong>Support:</strong> <a href="mailto:support@dailance.com">support@dailance.com</a></p>
+        <p><strong>Operator legal name:</strong> <span class="placeholder">VERIFIED LEGAL NAME REQUIRED BEFORE PUBLICATION</span></p>
+        <p>Dailance is the product and service name of an application operated by an individual, not the operator's legal identity. The operator's legal name must be verified before publication.</p>
       </div>
     </article>
   </main>
@@ -56,6 +67,7 @@
         <a href="/en/terms/">Terms of Use</a>
         <a href="/en/privacy/">Privacy Policy</a>
         <a href="/en/delete-account/" aria-current="page">Delete Account</a>
+        <a href="/en/support/">Support</a>
       </nav>
     </div>
   </footer>

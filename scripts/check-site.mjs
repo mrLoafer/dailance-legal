@@ -12,6 +12,7 @@ const requiredPages = [
   'en/terms/index.html',
   'en/privacy/index.html',
   'en/delete-account/index.html',
+  'en/support/index.html',
 ];
 
 async function filesBelow(directory) {
@@ -41,6 +42,8 @@ assert.deepEqual(
 
 assert.equal((await readFile(path.join(root, 'CNAME'), 'utf8')).trim(), 'legal.dailance.com');
 assert(allFiles.includes(path.join(root, '.nojekyll')), '.nojekyll is missing');
+assert(allFiles.includes(path.join(root, 'robots.txt')), 'robots.txt is missing');
+assert(allFiles.includes(path.join(root, 'sitemap.xml')), 'sitemap.xml is missing');
 
 for (const file of htmlFiles) {
   const relative = path.relative(root, file);
@@ -73,12 +76,111 @@ for (const address of [
   'https://legal.dailance.com/en/terms/',
   'https://legal.dailance.com/en/privacy/',
   'https://legal.dailance.com/en/delete-account/',
+  'https://legal.dailance.com/en/support/',
 ]) {
   assert(combined.includes(address), `Missing canonical public URL: ${address}`);
+}
+
+const privacy = await readFile(path.join(root, 'en/privacy/index.html'), 'utf8');
+for (const requiredDisclosure of [
+  'Sign in with Apple',
+  'private relay address',
+  'DigitalOcean',
+  'Resend',
+  'Cloudflare Email Routing',
+  'Expo push token',
+  'Apple Push Notification service',
+  'hosted on DigitalOcean infrastructure in Frankfurt, Germany',
+  'private DigitalOcean Spaces bucket',
+  'Healthchecks.io',
+  '14 represented UTC dates',
+  '8 represented ISO weeks',
+  'not a fixed maximum age',
+  'active application databases',
+]) {
+  assert(privacy.includes(requiredDisclosure), `Privacy Policy is missing required disclosure: ${requiredDisclosure}`);
+}
+
+const terms = await readFile(path.join(root, 'en/terms/index.html'), 'utf8');
+for (const requiredTerm of [
+  'at least 18 years old',
+  'contractual 18+ eligibility rule is separate from the content-based age rating',
+  'does not promise any financial result',
+  'Sign in with Apple',
+  'laws of the Republic of Armenia',
+  'not a bank, lender, broker, investment service',
+]) {
+  assert(terms.includes(requiredTerm), `Terms of Use is missing required term: ${requiredTerm}`);
+}
+
+const deletion = await readFile(path.join(root, 'en/delete-account/index.html'), 'utf8');
+for (const requiredInstruction of [
+  'email-and-password account',
+  'Apple-only account',
+  'revokes its stored Apple authorization',
+  'active data deletion continues in the background',
+  'no deterministic maximum completion time',
+  'remaining 15-minute lifetime',
+  'If a service is temporarily unavailable',
+  'encrypted backups',
+  'support@dailance.com',
+]) {
+  assert(deletion.includes(requiredInstruction), `Deletion page is missing required instruction: ${requiredInstruction}`);
+}
+
+for (const legalPage of [privacy, terms, deletion]) {
+  assert(legalPage.includes('Dailance is the product and service name'), 'Legal page does not distinguish the Dailance name from the operator');
+  assert(legalPage.includes('operated by an individual'), 'Legal page is missing the confirmed individual-operator status');
+  assert(legalPage.includes('VERIFIED LEGAL NAME REQUIRED BEFORE PUBLICATION'), 'Legal page is missing the operator legal-name publication blocker');
+}
+for (const legalPage of [privacy, terms]) {
+  assert(legalPage.includes('<strong>Operator status:</strong> Individual'), 'Legal page is missing the confirmed operator status');
+}
+assert.doesNotMatch(combined, /VERIFIED LEGAL STATUS REQUIRED BEFORE PUBLICATION/, 'Resolved operator status is still shown as a placeholder');
+
+assert(privacy.includes('do not operate Dailance'), 'Privacy Policy does not distinguish external service providers from the operator');
+assert(privacy.includes('No operator transition has occurred'), 'Privacy Policy is missing the future-operator transition boundary');
+assert(terms.includes('No operator transition has occurred'), 'Terms are missing the future-operator transition boundary');
+assert(terms.includes('does not represent that Dailance is an Armenian company, registered business, or licensed provider'), 'Terms overstate the effect of the Armenian governing-law clause');
+assert.doesNotMatch(combined, /Oleg Pyrchenkov/i, 'Unverified operator legal name found');
+
+assert(privacy.includes('sell personal information'), 'Privacy Policy is missing the no-sale boundary');
+assert(terms.includes('completely free'), 'Terms are missing the confirmed free launch model');
+assert(terms.includes('no paid subscriptions, in-app purchases, paid features, advertisements, or other monetization'), 'Terms are missing a launch monetization exclusion');
+
+assert(terms.includes('The free launch does not promise that Dailance will remain free forever'), 'Terms incorrectly imply that the free model is permanent');
+assert(terms.includes('clear notice'), 'Terms are missing the future-pricing notice boundary');
+assert(privacy.includes('collect payment-card or purchase information'), 'Privacy Policy is missing the no-payment-data boundary');
+for (const legalPage of [privacy, terms]) {
+  assert(legalPage.includes('Armenia storefronts'), 'Legal page is missing the Armenia-only launch market');
+}
+assert(privacy.includes('does not currently claim geographical access controls'), 'Privacy Policy overstates storefront targeting as a backend restriction');
+assert(terms.includes('not a representation that the backend technically blocks access'), 'Terms overstate storefront targeting as a backend restriction');
+assert.doesNotMatch(combined, /\brefunds?\b/i, 'Refund language is inappropriate for the free launch model');
+
+for (const legalPage of [privacy, terms, deletion]) {
+  assert(legalPage.includes('Proposed revision:</strong> 15 November 2026'), 'Legal page revision dates are inconsistent');
+  assert(legalPage.includes('Publication approval required.'), 'Legal page is missing the approval boundary');
+}
+
+const robots = await readFile(path.join(root, 'robots.txt'), 'utf8');
+assert.match(robots, /^User-agent: \*$/m);
+assert.match(robots, /^Sitemap: https:\/\/legal\.dailance\.com\/sitemap\.xml$/m);
+
+const sitemap = await readFile(path.join(root, 'sitemap.xml'), 'utf8');
+for (const address of [
+  'https://legal.dailance.com/',
+  'https://legal.dailance.com/en/',
+  'https://legal.dailance.com/en/terms/',
+  'https://legal.dailance.com/en/privacy/',
+  'https://legal.dailance.com/en/delete-account/',
+  'https://legal.dailance.com/en/support/',
+]) {
+  assert(sitemap.includes(`<loc>${address}</loc>`), `Sitemap is missing ${address}`);
 }
 
 for (const unsupportedLanguage of ['ru', 'hy', 'vi']) {
   assert(!allFiles.some((file) => file.startsWith(path.join(root, unsupportedLanguage))), `Fake ${unsupportedLanguage} translation found`);
 }
 
-process.stdout.write(`PASS: validated ${htmlFiles.length} HTML pages and all internal links.\n`);
+process.stdout.write(`PASS: validated ${htmlFiles.length} HTML pages, legal disclosures, metadata, and all internal links.\n`);

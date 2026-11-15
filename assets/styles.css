@@ -42,7 +42,7 @@ a:hover {
 
 a:focus-visible {
   border-radius: 0.2rem;
-  outline: 3px solid rgba(23, 107, 82, 0.35);
+  outline: 3px solid var(--accent);
   outline-offset: 3px;
 }
 

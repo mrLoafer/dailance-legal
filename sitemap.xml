@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://legal.dailance.com/</loc></url>
-  <url><loc>https://legal.dailance.com/en/</loc></url>
-  <url><loc>https://legal.dailance.com/en/terms/</loc></url>
-  <url><loc>https://legal.dailance.com/en/privacy/</loc></url>
-  <url><loc>https://legal.dailance.com/en/delete-account/</loc></url>
-  <url><loc>https://legal.dailance.com/en/support/</loc></url>
+  <url><loc>https://legal.dailance.com/</loc><lastmod>2026-11-15</lastmod></url>
+  <url><loc>https://legal.dailance.com/en/</loc><lastmod>2026-11-15</lastmod></url>
+  <url><loc>https://legal.dailance.com/en/terms/</loc><lastmod>2026-11-15</lastmod></url>
+  <url><loc>https://legal.dailance.com/en/privacy/</loc><lastmod>2026-11-15</lastmod></url>
+  <url><loc>https://legal.dailance.com/en/delete-account/</loc><lastmod>2026-11-15</lastmod></url>
+  <url><loc>https://legal.dailance.com/en/support/</loc><lastmod>2026-11-15</lastmod></url>
 </urlset>

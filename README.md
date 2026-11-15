@@ -2,7 +2,7 @@
 
 Static public legal and account-help pages for Dailance, designed for GitHub Pages at [legal.dailance.com](https://legal.dailance.com/).
 
-The site uses plain HTML and one shared CSS file. It has no JavaScript runtime, external assets, web fonts, tracking scripts, or cookies. The legal text is a product draft for owner and professional legal review; it must not be treated as finalized legal advice.
+The site uses plain HTML and one shared CSS file. It has no JavaScript runtime, external assets, web fonts, tracking scripts, or cookies. Published legal text should be reviewed whenever the product, operator, or data practices change; this repository is not legal advice.
 
 ## Source of truth
 
@@ -49,10 +49,11 @@ node scripts/check-site.mjs
 ```
 
 It checks the required pages, canonical URLs, internal links, shared stylesheet,
-custom-domain file, support email, legal disclosure guardrails, consistent
-revision status, sitemap/robots metadata, lack of scripts/tracking, and absence
-of fake translation directories. The GitHub Actions workflow runs the same
-dependency-free check for every pull request and push to `main`.
+custom-domain file, support email, legal disclosure guardrails, complete and
+consistent publication dates, sitemap/robots metadata, lack of scripts/tracking,
+and absence of draft notices, operator placeholders, and fake translation
+directories. The GitHub Actions workflow runs the same dependency-free check
+for every pull request and push to `main`.
 
 ## Deploy with GitHub Pages
 
@@ -121,76 +122,36 @@ Do not automatically overwrite translated pages when English changes. Record the
 
 ## Reviewing legal content changes
 
-Every legal-content update should be reviewed by the product owner and qualified legal counsel before publication. A proposed revision must retain its visible publication-approval notice and unset effective date until that review is complete. Reviewers should:
+Every legal-content update should be reviewed by the product owner and qualified legal counsel before publication. Track review status in the pull request or private release records, never in public HTML. Reviewers should:
 
 1. compare the text with the currently released app and backend behavior;
 2. confirm the operator identity, jurisdictions, service providers, processing locations, retention practices, and user-rights procedure;
 3. confirm that no planned feature is presented as currently available;
 4. review all language versions independently;
-5. replace the proposed-revision notice with the approved “Last updated” and effective dates immediately before merge to the publishing branch;
+5. set the final “Last updated” date and matching sitemap dates before merge to the publishing branch;
 6. run the validator and preview the pages on mobile and desktop; and
 7. keep evidence of approval outside the public site as required by the owner’s release process.
 
-## Release readiness and blockers
+## Published release facts
 
-The English drafts reflect the current MVP and are ready for owner and professional legal review. They are **not ready for public release** until every item below that applies to the release has been closed.
+- Dailance is operated by Oleg Pyrchenkov, an individual based in Armenia. The pages do not claim a company, registration number, licence, postal address, or telephone number.
+- The service is for adults aged 18 or older, is distributed through the Armenia storefronts, and is currently free without paid features or advertising.
+- `support@dailance.com` is the public channel for support, privacy requests, and deletion assistance.
+- The Privacy Policy identifies the current product data, service providers, hosting location, backup model, and international processing without claiming unverified certifications or fixed provider-retention periods.
+- The deletion disclosures cover in-app confirmation, immediate sign-out, the residual 15-minute access-token window, background retries without a fixed completion deadline, active-system deletion, cryptographic anti-resurrection markers, and historical encrypted backups.
+- Backup retention is count-based: 14 represented UTC dates, 8 represented ISO weeks, and the latest valid restore point. It is not described as a fixed maximum age.
 
-### RESOLVED
+## Release maintenance
 
-- **Operating form:** Dailance is a product and service name operated by an individual. This confirms the operator type but does not supply the individual's legal name, registration position, tax status, or address.
-- **No inferred registration facts:** the drafts do not claim a company, business registration, tax identifier, business address, or licence.
-- **Minimum age:** the current MVP is 18+ and is not intended for children or minors under 18.
-- **Initial launch market:** the first public release is Armenia only. App Store Connect and Google Play production availability must select Armenia and no other country or region. This storefront decision does not claim a backend geographical restriction.
-- **Initial monetization model:** Dailance will be completely free at launch. There will be no paid subscriptions, in-app purchases, paid features, advertising, or other monetization. This does not promise that Dailance will remain free forever; any future monetization requires clear notice, applicable legal/platform review, and updates to the legal documents and store declarations before it is introduced.
-- **Home-law baseline:** the Terms use the laws of the Republic of Armenia while preserving mandatory consumer rights and legally available forums. Exclusive Armenian or Yerevan jurisdiction is not claimed.
-- **Support and privacy channel:** `support@dailance.com` is the contact for support, access, correction, deletion, and other privacy requests. The owner confirms that incoming delivery works and is privately forwarded. Replying with `support@dailance.com` as the visible sender and the operational request-handling procedure remain separate checks.
-- **Confirmed email processor:** Resend is identified for transactional verification, recovery, and account-deletion completion email.
-- **Current product scope:** the drafts cover email/password accounts, verification and recovery, optional profile data, manually entered plans and expenses, categories, calculated budgets/carry-over, basic internal analytics, and operational/security metadata. They do not claim bank connections, receipt images, location collection, advertising, or behavioral analytics.
-- **Deletion behavior:** the drafts describe password and Apple confirmation, immediate app sign-out and refresh/recovery shutdown, the residual 15-minute access-token window, background retries without an unsupported completion deadline, completion email, cryptographic anti-resurrection markers, and historical encrypted backups.
-- **Backup policy:** the owner approved the 14-daily/8-weekly count-based selection with unconditional preservation of the latest valid restore point. It is not represented as a maximum age.
-- **Public legal-site infrastructure:** GitHub Pages is identified separately from processors of Dailance account and financial data.
+Before publishing a legal-content change:
 
-### OWNER DECISION REQUIRED
+1. compare the text with the released app and backend behavior;
+2. confirm operator, provider, processing-location, retention, and user-rights facts;
+3. review each language independently;
+4. update the visible “Last updated” date and every sitemap `<lastmod>` value;
+5. run `node scripts/check-site.mjs`; and
+6. preview every page at narrow and wide viewport sizes.
 
-- **Verified operator identity:** provide and approve the exact legal name of the individual responsible for Dailance in all three pages and applicable store records. The prior draft's name was not treated as verified and has been removed. The legal pages contain a blocking review field.
-- **Publication date:** approve this revision and set the final matching “Last updated” and effective dates on all three pages immediately before publication.
-- **Storefront configuration:** verify manually that production availability contains Armenia only immediately before submission. Private TestFlight and Play internal testing are separate distribution mechanisms and do not prove this setting.
-- **Approved public contacts:** verify response monitoring, the ability to reply with `support@dailance.com` as the visible sender, and the support/privacy/deletion request procedure. Decide what public phone number, postal address, or other contact is legally or contractually required for Armenia and the selected stores. Do not publish a residential address or private contact detail without explicit owner approval.
-- **Production and provider facts:** close the hosting, backup, logs, email, Apple, Expo, APNs/FCM, and international-transfer confirmations listed below before approving the Privacy Policy.
-
-### LEGAL REVIEW RECOMMENDED
-
-- **Operator and contact disclosures:** determine the exact legal-name, address, privacy-representative, regulator, and trader disclosures required for an individual operator in the launch market.
-- **Armenian registration and tax status:** obtain Armenian legal and tax advice on whether the operator's actual activities require individual-entrepreneur registration, tax-authority record-registration, a taxpayer identifier, tax filings, VAT or other indirect-tax treatment, invoicing, social payments, or a licence. The repository does not decide or claim any of these statuses. Review the current Armenian Civil Code and Law on Individual Entrepreneur rather than inferring status from the Apple Developer enrollment choice.
-- **Governing law and disputes:** confirm the operator's factual connection to Armenia and review whether an individual may use the proposed Armenian governing-law clause for every intended market, its preservation of mandatory local consumer rights, and the decision not to impose an exclusive court. The clause does not make Dailance an Armenian company or registered business.
-- **Future operator transition:** if a legal entity or different person later becomes the operator, obtain advice and a transition plan for contract assignment/novation, privacy notices and data transfer, store-account migration, effective dates, and user consent where required. No transition has occurred.
-- **Age policy:** review the confirmed 18+ policy for the intended markets and make the onboarding, marketing, and Apple/Google audience declarations match it. No parental-consent flow is part of the current MVP.
-- **Privacy rights and lawful processing:** confirm applicable legal bases, request-response requirements, identity-verification wording, regulator disclosures, and any country-specific rights.
-- **International transfers:** after providers and regions are known, determine whether Armenian authorization, an adequacy basis, contractual safeguards, or other measures are required. Do not claim SCCs or another mechanism unless it is actually used.
-- **Consumer and liability language:** review the financial-information disclaimer, warranty language, limitation of indirect/consequential loss, and preservation of non-excludable rights. No monetary liability cap is asserted.
-- **Retention obligations:** identify any mandatory record-retention periods and approve the treatment of security markers, logs, transactional-email records, and backups.
-
-### TECHNICAL VERIFICATION REQUIRED
-
-- **Current host:** the owner confirms that the Dailance backend is hosted on DigitalOcean infrastructure in Frankfurt, Germany. Confirm the exact account entity, environment/release role, data categories handled, access controls, provider retention, subprocessors, and applicable processing terms against the provider account and deployed runtime.
-- **Backup provider and settings:** encrypted database backups are stored in a private DigitalOcean Spaces bucket and the count-based retention policy is approved. Record the exact Spaces region, account and bucket access controls, versioning/object-lock/lifecycle state, encryption/key ownership, accepted processing terms, provider deletion behavior, and restore history. The live retention timer remains disabled pending this verification and activation.
-- **Email processing details:** confirm the production Resend account/entity, processing locations, contractual terms, provider retention controls, and the exact metadata visible in production.
-- **Support-email processing details:** public DNS routes `support@dailance.com` through Cloudflare Email Routing to a private mailbox. Confirm the Cloudflare account/terms, destination mailbox provider and account, processing locations, access, retention, deletion, attachment handling, and the secure request-handling procedure.
-- **Logs and network metadata:** verify production IP handling, log destinations, access controls, and retention. Confirm that passwords, verification/recovery codes, tokens, email addresses, and user financial data are not written to application logs.
-- **Deletion and backups:** run the end-to-end deletion verification, including stale-message fencing, participant completion, sign-in/recovery denial, and the documented fail-closed restore rehearsal using deletion protections newer than the restored backup.
-- **Store artifacts and declarations:** inspect each final signed iOS/Android binary and its third-party code, then make Apple App Privacy and Google Data safety answers match the shipped behavior. Confirm the in-app deletion path and provide `https://legal.dailance.com/en/delete-account/` as the Google web deletion resource.
-- **Public-site readiness:** verify DNS, TLS, GitHub Pages custom-domain status, every canonical URL, and the actual effective date immediately before publication. Deployment and DNS changes are intentionally outside this task.
-
-Official starting points for professional review (not legal or tax conclusions):
-
-- [Civil Code of the Republic of Armenia](https://www.arlis.am/en/acts/205622/latest), including its treatment of entrepreneurial activity by natural persons;
-- [Law of the Republic of Armenia on Individual Entrepreneur](https://www.arlis.am/en/acts/173483), including the definition, obligations, and tax-payment rule for a registered individual entrepreneur;
-- [State Revenue Committee guidance for tax registration of a natural person who is not an individual entrepreneur](https://src.am/storage/File_Link_Uploade/3RegRAcitizen_67977f4a884f2.pdf);
-- [Apple's EU Digital Services Act trader-information requirements](https://developer.apple.com/help/app-store-connect/manage-compliance-information/manage-european-union-digital-services-act-trader-requirements); and
-- [Google Play's developer-account identity and disclosure requirements](https://support.google.com/googleplay/android-developer/answer/13628312).
-
-Before publication, resolve every item in the Dailance monorepo's
-`docs/legal/owner-confirmations.md`, record the reviewed Dailance commit, remove
-the visible proposal notices only after approval, run `node scripts/check-site.mjs`,
-and preview all pages at narrow and wide viewport sizes. Do not deploy from a
-feature branch or merge a proposed revision merely to preview it.
+Keep review status and operational checklists outside public HTML. The validator
+rejects draft notices, operator placeholders, incomplete dates, and internal
+publication instructions on every public page.

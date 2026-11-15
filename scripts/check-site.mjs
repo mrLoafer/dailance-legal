@@ -88,6 +88,9 @@ for (const requiredDisclosure of [
   'Expo push token',
   'Apple Push Notification service',
   'Firebase Cloud Messaging',
+  'hosted on DigitalOcean infrastructure in Frankfurt, Germany',
+  'private DigitalOcean Spaces bucket',
+  'Automatic deletion of old backup restore points is not currently enabled',
   'removed from active application databases',
 ]) {
   assert(privacy.includes(requiredDisclosure), `Privacy Policy is missing required disclosure: ${requiredDisclosure}`);
@@ -145,7 +148,7 @@ assert(terms.includes('not a representation that the backend technically blocks 
 assert.doesNotMatch(combined, /\brefunds?\b/i, 'Refund language is inappropriate for the free launch model');
 
 for (const legalPage of [privacy, terms, deletion]) {
-  assert(legalPage.includes('Proposed revision:</strong> 14 November 2026'), 'Legal page revision dates are inconsistent');
+  assert(legalPage.includes('Proposed revision:</strong> 15 November 2026'), 'Legal page revision dates are inconsistent');
   assert(legalPage.includes('Publication approval required.'), 'Legal page is missing the approval boundary');
 }
 

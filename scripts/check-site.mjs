@@ -130,12 +130,13 @@ for (const requiredInstruction of [
 
 for (const legalPage of [privacy, terms, deletion]) {
   assert(legalPage.includes('Dailance is the product and service name'), 'Legal page does not distinguish the Dailance name from the operator');
+  assert(legalPage.includes('operated by an individual'), 'Legal page is missing the confirmed individual-operator status');
   assert(legalPage.includes('VERIFIED LEGAL NAME REQUIRED BEFORE PUBLICATION'), 'Legal page is missing the operator legal-name publication blocker');
 }
 for (const legalPage of [privacy, terms]) {
-  assert(legalPage.includes('VERIFIED LEGAL STATUS REQUIRED BEFORE PUBLICATION'), 'Legal page is missing the operator legal-status publication blocker');
+  assert(legalPage.includes('<strong>Operator status:</strong> Individual'), 'Legal page is missing the confirmed operator status');
 }
-assert.doesNotMatch(combined, /natural person acting in an individual capacity|no legal entity or registered sole proprietorship currently operates/i, 'Unverified operator-status assertion found');
+assert.doesNotMatch(combined, /VERIFIED LEGAL STATUS REQUIRED BEFORE PUBLICATION/, 'Resolved operator status is still shown as a placeholder');
 
 assert(privacy.includes('do not operate Dailance'), 'Privacy Policy does not distinguish external service providers from the operator');
 assert(privacy.includes('No operator transition has occurred'), 'Privacy Policy is missing the future-operator transition boundary');

@@ -137,7 +137,7 @@ The English drafts reflect the current MVP and are ready for owner and professio
 
 ### RESOLVED
 
-- **Operating form:** Dailance is a product and service name, not the operator's legal identity. The individual Apple Developer enrollment decision does not verify the operator's legal name, legal status, or registration position.
+- **Operating form:** Dailance is a product and service name operated by an individual. This confirms the operator type but does not supply the individual's legal name, registration position, tax status, or address.
 - **No inferred registration facts:** the drafts do not claim a company, business registration, tax identifier, business address, or licence.
 - **Minimum age:** the current MVP is 18+ and is not intended for children or minors under 18.
 - **Initial launch market:** the first public release is Armenia only. App Store Connect and Google Play production availability must select Armenia and no other country or region. This storefront decision does not claim a backend geographical restriction.
@@ -152,7 +152,7 @@ The English drafts reflect the current MVP and are ready for owner and professio
 
 ### OWNER DECISION REQUIRED
 
-- **Verified operator identity and status:** provide and approve the exact legal name and status of the person or entity legally responsible for Dailance in all three pages and applicable store records. The prior draft's name and operating-form assertions were not treated as verified by the current owner decision and have been removed. The legal pages contain blocking review fields.
+- **Verified operator identity:** provide and approve the exact legal name of the individual responsible for Dailance in all three pages and applicable store records. The prior draft's name was not treated as verified and has been removed. The legal pages contain a blocking review field.
 - **Publication date:** approve this revision and set the final matching “Last updated” and effective dates on all three pages immediately before publication.
 - **Storefront configuration:** verify manually that production availability contains Armenia only immediately before submission. Private TestFlight and Play internal testing are separate distribution mechanisms and do not prove this setting.
 - **Approved public contacts:** verify response monitoring, the ability to reply with `support@dailance.com` as the visible sender, and the support/privacy/deletion request procedure. Decide what public phone number, postal address, or other contact is legally or contractually required for Armenia and the selected stores. Do not publish a residential address or private contact detail without explicit owner approval.
@@ -160,7 +160,7 @@ The English drafts reflect the current MVP and are ready for owner and professio
 
 ### LEGAL REVIEW RECOMMENDED
 
-- **Operator and contact disclosures:** verify the actual operating structure and determine the exact legal-name, address, privacy-representative, regulator, and trader disclosures required for the launch market.
+- **Operator and contact disclosures:** determine the exact legal-name, address, privacy-representative, regulator, and trader disclosures required for an individual operator in the launch market.
 - **Armenian registration and tax status:** obtain Armenian legal and tax advice on whether the operator's actual activities require individual-entrepreneur registration, tax-authority record-registration, a taxpayer identifier, tax filings, VAT or other indirect-tax treatment, invoicing, social payments, or a licence. The repository does not decide or claim any of these statuses. Review the current Armenian Civil Code and Law on Individual Entrepreneur rather than inferring status from the Apple Developer enrollment choice.
 - **Governing law and disputes:** confirm the operator's factual connection to Armenia and review whether an individual may use the proposed Armenian governing-law clause for every intended market, its preservation of mandatory local consumer rights, and the decision not to impose an exclusive court. The clause does not make Dailance an Armenian company or registered business.
 - **Future operator transition:** if a legal entity or different person later becomes the operator, obtain advice and a transition plan for contract assignment/novation, privacy notices and data transfer, store-account migration, effective dates, and user consent where required. No transition has occurred.

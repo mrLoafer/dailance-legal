@@ -12,6 +12,7 @@ const requiredPages = [
   'en/terms/index.html',
   'en/privacy/index.html',
   'en/delete-account/index.html',
+  'en/support/index.html',
 ];
 
 async function filesBelow(directory) {
@@ -75,6 +76,7 @@ for (const address of [
   'https://legal.dailance.com/en/terms/',
   'https://legal.dailance.com/en/privacy/',
   'https://legal.dailance.com/en/delete-account/',
+  'https://legal.dailance.com/en/support/',
 ]) {
   assert(combined.includes(address), `Missing canonical public URL: ${address}`);
 }
@@ -88,11 +90,13 @@ for (const requiredDisclosure of [
   'Cloudflare Email Routing',
   'Expo push token',
   'Apple Push Notification service',
-  'Firebase Cloud Messaging',
   'hosted on DigitalOcean infrastructure in Frankfurt, Germany',
   'private DigitalOcean Spaces bucket',
-  'Automatic deletion of old backup restore points is not currently enabled',
-  'removed from active application databases',
+  'Healthchecks.io',
+  '14 represented UTC dates',
+  '8 represented ISO weeks',
+  'not a fixed maximum age',
+  'active application databases',
 ]) {
   assert(privacy.includes(requiredDisclosure), `Privacy Policy is missing required disclosure: ${requiredDisclosure}`);
 }
@@ -104,6 +108,7 @@ for (const requiredTerm of [
   'does not promise any financial result',
   'Sign in with Apple',
   'laws of the Republic of Armenia',
+  'not a bank, lender, broker, investment service',
 ]) {
   assert(terms.includes(requiredTerm), `Terms of Use is missing required term: ${requiredTerm}`);
 }
@@ -113,7 +118,10 @@ for (const requiredInstruction of [
   'email-and-password account',
   'Apple-only account',
   'revokes its stored Apple authorization',
-  'deletion completes asynchronously',
+  'active data deletion continues in the background',
+  'no deterministic maximum completion time',
+  'remaining 15-minute lifetime',
+  'If a service is temporarily unavailable',
   'encrypted backups',
   'support@dailance.com',
 ]) {
@@ -122,26 +130,27 @@ for (const requiredInstruction of [
 
 for (const legalPage of [privacy, terms, deletion]) {
   assert(legalPage.includes('Dailance is the product and service name'), 'Legal page does not distinguish the Dailance name from the operator');
-  assert(legalPage.includes('natural person acting in an individual capacity'), 'Legal page is missing the confirmed individual operating form');
-  assert(legalPage.toLowerCase().includes('no legal entity or registered sole proprietorship'), 'Legal page is missing the no-entity/no-registration boundary');
   assert(legalPage.includes('VERIFIED LEGAL NAME REQUIRED BEFORE PUBLICATION'), 'Legal page is missing the operator legal-name publication blocker');
 }
+for (const legalPage of [privacy, terms]) {
+  assert(legalPage.includes('VERIFIED LEGAL STATUS REQUIRED BEFORE PUBLICATION'), 'Legal page is missing the operator legal-status publication blocker');
+}
+assert.doesNotMatch(combined, /natural person acting in an individual capacity|no legal entity or registered sole proprietorship currently operates/i, 'Unverified operator-status assertion found');
 
 assert(privacy.includes('do not operate Dailance'), 'Privacy Policy does not distinguish external service providers from the operator');
-assert(privacy.includes('operator transition has already occurred'), 'Privacy Policy is missing the future-operator transition boundary');
-assert(terms.includes('operator transition has already occurred'), 'Terms are missing the future-operator transition boundary');
+assert(privacy.includes('No operator transition has occurred'), 'Privacy Policy is missing the future-operator transition boundary');
+assert(terms.includes('No operator transition has occurred'), 'Terms are missing the future-operator transition boundary');
 assert(terms.includes('does not represent that Dailance is an Armenian company, registered business, or licensed provider'), 'Terms overstate the effect of the Armenian governing-law clause');
 assert.doesNotMatch(combined, /Oleg Pyrchenkov/i, 'Unverified operator legal name found');
 
-for (const legalPage of [privacy, terms, deletion]) {
-  assert(legalPage.includes('completely free'), 'Legal page is missing the confirmed free launch model');
-  assert(legalPage.includes('no paid subscriptions, in-app purchases, paid features, advertisements, or other monetization'), 'Legal page is missing a launch monetization exclusion');
-}
+assert(privacy.includes('sell personal information'), 'Privacy Policy is missing the no-sale boundary');
+assert(terms.includes('completely free'), 'Terms are missing the confirmed free launch model');
+assert(terms.includes('no paid subscriptions, in-app purchases, paid features, advertisements, or other monetization'), 'Terms are missing a launch monetization exclusion');
 
-assert(terms.includes('does not promise that Dailance will remain free forever'), 'Terms incorrectly imply that the free model is permanent');
+assert(terms.includes('The free launch does not promise that Dailance will remain free forever'), 'Terms incorrectly imply that the free model is permanent');
 assert(terms.includes('clear notice'), 'Terms are missing the future-pricing notice boundary');
-assert(privacy.includes('do not collect payment-card or purchase information'), 'Privacy Policy is missing the no-payment-data boundary');
-for (const legalPage of [privacy, terms, deletion]) {
+assert(privacy.includes('collect payment-card or purchase information'), 'Privacy Policy is missing the no-payment-data boundary');
+for (const legalPage of [privacy, terms]) {
   assert(legalPage.includes('Armenia storefronts'), 'Legal page is missing the Armenia-only launch market');
 }
 assert(privacy.includes('does not currently claim geographical access controls'), 'Privacy Policy overstates storefront targeting as a backend restriction');
@@ -164,6 +173,7 @@ for (const address of [
   'https://legal.dailance.com/en/terms/',
   'https://legal.dailance.com/en/privacy/',
   'https://legal.dailance.com/en/delete-account/',
+  'https://legal.dailance.com/en/support/',
 ]) {
   assert(sitemap.includes(`<loc>${address}</loc>`), `Sitemap is missing ${address}`);
 }

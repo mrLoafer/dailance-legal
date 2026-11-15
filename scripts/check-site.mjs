@@ -14,6 +14,23 @@ const requiredPages = [
   'en/delete-account/index.html',
   'en/support/index.html',
 ];
+const publicationDate = '15 November 2026';
+const operatorName = 'Oleg Pyrchenkov';
+const completeDate = /^(?:[1-9]|[12]\d|3[01]) (?:January|February|March|April|May|June|July|August|September|October|November|December) \d{4}$/;
+const forbiddenPublicContent = [
+  [/\bdraft\b/i, 'draft language'],
+  [/publication approval required/i, 'publication approval notice'],
+  [/verified legal (?:name|status) required/i, 'operator placeholder'],
+  [/proposed revision/i, 'proposed revision label'],
+  [/class=["'][^"']*\bplaceholder\b/i, 'placeholder markup'],
+  [/\b(?:todo|tbd)\b/i, 'TODO marker'],
+  [/\b(?:before publication|not effective until)\b/i, 'pre-publication instruction'],
+  [/\bremain(?:s)? to be (?:approved|confirmed|set|verified)\b/i, 'unresolved review language'],
+  [/\boperator(?:'s)? (?:verified )?legal name must\b/i, 'unresolved operator instruction'],
+  [/\b(?:insert|replace|enter) (?:the )?(?:operator|legal) (?:name|identity)\b/i, 'operator placeholder instruction'],
+  [/[\[{_<-]{1,2}\s*(?:operator|legal)[\s_-]*(?:name|identity)\s*[}\]>_-]{1,2}/i, 'operator placeholder token'],
+  [/\b(?:effective date|last updated)\s*:\s*(?:<\/?[^>]+>\s*)*(?:to be set|pending|unknown|todo|tbd)\b/i, 'incomplete public date'],
+];
 
 async function filesBelow(directory) {
   const entries = await readdir(directory, { withFileTypes: true });
@@ -57,6 +74,15 @@ for (const file of htmlFiles) {
   assert.match(html, /href="\/assets\/styles\.css"/, `${relative}: missing shared stylesheet`);
   assert.doesNotMatch(html, /<script\b|document\.cookie|googletag|analytics\.js/i, `${relative}: script or tracking code found`);
   assert.doesNotMatch(html, /example\.(com|org|net)|support@dailance\.(app|io)/i, `${relative}: placeholder domain or wrong support address found`);
+  assert(html.includes(operatorName), `${relative}: confirmed operator name is missing`);
+
+  for (const [pattern, description] of forbiddenPublicContent) {
+    assert.doesNotMatch(html, pattern, `${relative}: ${description} found`);
+  }
+
+  for (const date of html.matchAll(/<strong>(?:Last updated|Effective date):<\/strong>\s*([^<]*)/g)) {
+    assert.match(date[1].trim(), completeDate, `${relative}: incomplete or invalid public date`);
+  }
 
   for (const match of html.matchAll(/href="([^"]+)"/g)) {
     const href = match[1];
@@ -128,40 +154,33 @@ for (const requiredInstruction of [
   assert(deletion.includes(requiredInstruction), `Deletion page is missing required instruction: ${requiredInstruction}`);
 }
 
-for (const legalPage of [privacy, terms, deletion]) {
-  assert(legalPage.includes('Dailance is the product and service name'), 'Legal page does not distinguish the Dailance name from the operator');
-  assert(legalPage.includes('operated by an individual'), 'Legal page is missing the confirmed individual-operator status');
-  assert(legalPage.includes('VERIFIED LEGAL NAME REQUIRED BEFORE PUBLICATION'), 'Legal page is missing the operator legal-name publication blocker');
-}
 for (const legalPage of [privacy, terms]) {
-  assert(legalPage.includes('<strong>Operator status:</strong> Individual'), 'Legal page is missing the confirmed operator status');
+  assert(legalPage.includes('not a separate company or legal entity'), 'Legal page does not distinguish the Dailance name from the operator');
+  assert(legalPage.includes('<strong>Operator type:</strong> Individual'), 'Legal page is missing the confirmed operator type');
+  assert(legalPage.includes('<strong>Location:</strong> Armenia'), 'Legal page is missing the confirmed operator location');
 }
-assert.doesNotMatch(combined, /VERIFIED LEGAL STATUS REQUIRED BEFORE PUBLICATION/, 'Resolved operator status is still shown as a placeholder');
+for (const legalPage of [privacy, terms, deletion]) {
+  assert(legalPage.includes(`<strong>Last updated:</strong> ${publicationDate}`), 'Legal page publication date is missing or inconsistent');
+}
 
 assert(privacy.includes('do not operate Dailance'), 'Privacy Policy does not distinguish external service providers from the operator');
 assert(privacy.includes('No operator transition has occurred'), 'Privacy Policy is missing the future-operator transition boundary');
-assert(terms.includes('No operator transition has occurred'), 'Terms are missing the future-operator transition boundary');
-assert(terms.includes('does not represent that Dailance is an Armenian company, registered business, or licensed provider'), 'Terms overstate the effect of the Armenian governing-law clause');
-assert.doesNotMatch(combined, /Oleg Pyrchenkov/i, 'Unverified operator legal name found');
+assert(terms.includes('not represented as a company, registered business, or licensed provider'), 'Terms overstate the effect of the Armenian governing-law clause');
+assert.equal(combined.match(/Oleg Pyrchenkov/g)?.length > 0, true, 'Confirmed operator legal name is missing');
 
 assert(privacy.includes('sell personal information'), 'Privacy Policy is missing the no-sale boundary');
-assert(terms.includes('completely free'), 'Terms are missing the confirmed free launch model');
+assert(terms.includes('currently free'), 'Terms are missing the confirmed free launch model');
 assert(terms.includes('no paid subscriptions, in-app purchases, paid features, advertisements, or other monetization'), 'Terms are missing a launch monetization exclusion');
 
-assert(terms.includes('The free launch does not promise that Dailance will remain free forever'), 'Terms incorrectly imply that the free model is permanent');
+assert(terms.includes('may introduce paid features in the future'), 'Terms incorrectly imply that the free model is permanent');
 assert(terms.includes('clear notice'), 'Terms are missing the future-pricing notice boundary');
 assert(privacy.includes('collect payment-card or purchase information'), 'Privacy Policy is missing the no-payment-data boundary');
 for (const legalPage of [privacy, terms]) {
   assert(legalPage.includes('Armenia storefronts'), 'Legal page is missing the Armenia-only launch market');
 }
-assert(privacy.includes('does not currently claim geographical access controls'), 'Privacy Policy overstates storefront targeting as a backend restriction');
-assert(terms.includes('not a representation that the backend technically blocks access'), 'Terms overstate storefront targeting as a backend restriction');
+assert(privacy.includes('does not mean that the service technically blocks access'), 'Privacy Policy overstates storefront targeting as a backend restriction');
+assert(terms.includes('does not mean that the service technically blocks access'), 'Terms overstate storefront targeting as a backend restriction');
 assert.doesNotMatch(combined, /\brefunds?\b/i, 'Refund language is inappropriate for the free launch model');
-
-for (const legalPage of [privacy, terms, deletion]) {
-  assert(legalPage.includes('Proposed revision:</strong> 15 November 2026'), 'Legal page revision dates are inconsistent');
-  assert(legalPage.includes('Publication approval required.'), 'Legal page is missing the approval boundary');
-}
 
 const robots = await readFile(path.join(root, 'robots.txt'), 'utf8');
 assert.match(robots, /^User-agent: \*$/m);
@@ -178,6 +197,7 @@ for (const address of [
 ]) {
   assert(sitemap.includes(`<loc>${address}</loc>`), `Sitemap is missing ${address}`);
 }
+assert.equal((sitemap.match(/<lastmod>2026-11-15<\/lastmod>/g) ?? []).length, requiredPages.length, 'Sitemap publication dates are incomplete or inconsistent');
 
 for (const unsupportedLanguage of ['ru', 'hy', 'vi']) {
   assert(!allFiles.some((file) => file.startsWith(path.join(root, unsupportedLanguage))), `Fake ${unsupportedLanguage} translation found`);

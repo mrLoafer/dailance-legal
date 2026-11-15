@@ -85,6 +85,7 @@ for (const requiredDisclosure of [
   'private relay address',
   'DigitalOcean',
   'Resend',
+  'Cloudflare Email Routing',
   'Expo push token',
   'Apple Push Notification service',
   'Firebase Cloud Messaging',
